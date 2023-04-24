@@ -24,6 +24,8 @@ def makeDirectory():
         vals = grant.find_all('td')
         rec = {}
         for i,j in enumerate(vals):
+            if i==0:
+                rec["img"] = j.find("img")['src']
             if i!=5:
                 rec[keys[i]]=j.text
             # else:
