@@ -1,10 +1,12 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
 from pymongo import MongoClient
 from bson import json_util
-import json
 from tinydb import TinyDB, Query
 from bs4 import BeautifulSoup
 import requests
+import openai
+import json
 
 u1 = "https://blockworks.co"
 u2 = "https://superteam.fun"
@@ -144,3 +146,25 @@ async def scrapeAgain(password):
         return "done"
     else:
         return "wrong"
+
+class Item(BaseModel):
+    desc: str
+
+openai.organization = "org-tBuzVnJ4g5oCThOoLUXr5JJx"
+openai.api_key = "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"
+
+@app.post("/getGpt")
+async def getGpt(item:Item):
+    prompt = f"""Read the project description given below and tell me in which of the following categories does it fall in, it can fall in more than one category. Answer only in a python list format. The categories are "AI", "Bridges/Interoperability", "CEX", "Communities", "Content", "DeFi", "Derivatives", "DEX", "EVM Compatible","Foundation", "GameFi", "Grants", "Index", "Infrastructure", "Insurance","Inter-operability", "IOT", "Layer 1", "Layer 2", "Lend/Borrow", "Metagovernance", "Music", "NFT", "NFT Marketplace", "Oracles", "Privacy", "Protocal DAO", "Quadratic Funding", "Research", "Social", "Social Causes", "Stablecoin", "Staking", "Yield Farming". The project is '{item.desc}'"""
+    resp = openai.Completion.create(
+        model="text-davinci-003",
+        prompt=prompt,
+        max_tokens=400,
+        temperature=0.1
+    )
+    text = resp['choices'][0]['text'].strip("\n\n")
+    lis = text[1:-1].split(",")
+    lis = [x.strip(" ") for x in lis]
+    lis = [x.strip('"') for x in lis]
+    print(lis)
+    return {"categories":lis}
