@@ -151,7 +151,7 @@ class Item(BaseModel):
     desc: str
 
 openai.organization = "org-tBuzVnJ4g5oCThOoLUXr5JJx"
-openai.api_key = "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"
+openai.api_key = "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"
 
 @app.post("/getGpt")
 async def getGpt(item:Item):
