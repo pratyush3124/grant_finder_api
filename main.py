@@ -6,7 +6,7 @@ from tinydb import TinyDB, Query
 from bs4 import BeautifulSoup
 import requests
 import openai
-import json
+import os
 
 u1 = "https://blockworks.co"
 u2 = "https://superteam.fun"
@@ -151,7 +151,7 @@ class Item(BaseModel):
     desc: str
 
 openai.organization = "org-tBuzVnJ4g5oCThOoLUXr5JJx"
-openai.api_key = "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"
+openai.api_key = os.getenv('OPENAI_KEY')
 
 @app.post("/getGpt")
 async def getGpt(item:Item):
