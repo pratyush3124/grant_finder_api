@@ -139,7 +139,7 @@ async def scrapeAgain(password):
         d1 = makeFirst()
         d2 = makeSecond()
         d3 = makeThird()
-        ds = d2+d1+d3
+        ds = d3+d1+d2
         db.truncate()
         for grant in ds:
             db.insert(grant)
