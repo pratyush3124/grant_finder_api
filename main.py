@@ -150,8 +150,9 @@ async def scrapeAgain(password):
 class Item(BaseModel):
     desc: str
 
+with open("/etc/secrets/asdf", "r") as f:
+    openai.api_key = f.read()
 openai.organization = "org-tBuzVnJ4g5oCThOoLUXr5JJx"
-openai.api_key = os.getenv('OPENAI_KEY')
 
 @app.post("/getGpt")
 async def getGpt(item:Item):
