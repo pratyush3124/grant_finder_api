@@ -132,7 +132,6 @@ app = FastAPI()
 async def findGrants():
     return {"grants": db.all()}
 
-
 @app.get("/scrapeAgain/{password}")
 async def scrapeAgain(password):
     if password == "yQBR26tXgAkdHlTTX":
@@ -150,9 +149,9 @@ async def scrapeAgain(password):
 class Item(BaseModel):
     desc: str
 
-with open("/etc/secrets/asdf", "r") as f:
-    openai.api_key = f.read()
-openai.organization = "org-tBuzVnJ4g5oCThOoLUXr5JJx"
+# with open("/etc/secrets/asdf", "r") as f:
+#     openai.api_key = f.read()
+# openai.organization = "org-tBuzVnJ4g5oCThOoLUXr5JJx"
 
 @app.post("/getGpt")
 async def getGpt(item:Item):
